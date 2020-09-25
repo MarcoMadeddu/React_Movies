@@ -1,20 +1,40 @@
 import React , {Component}from 'react';
 import './App.css';
-
+import VideoList from './components/movie_list'
 //CONST & VARS
 const APIKEY = '8ed69995';
 const APIURL = `http://www.omdbapi.com`;
 
+//FUNCTIONS 
+function fetchMovies(search = 'back to the future'){
+  return fetch(APIURL + '?apikey=' + APIKEY + '&s=' + search).then( res => res.json())
+}; 
+
 class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      movies : [],
+      totalCount : 0,
+
+    }
+  }
+  
   componentDidMount(){
-    fetch(APIURL + '?apikey=' + APIKEY + '&s=back to the future').then( res => res.json())
-    .then(apiResult => console.log(apiResult));
+    fetchMovies().then(res => {
+        this.setState({
+          movies : res.Search
+        })
+    })
   }
   render() {
     return (
-      <div className="App">
-        <h1>Hellooo</h1>
+      <>
+      <div class="navbar"></div>
+      <div className="movie_container">
+        <VideoList movies={this.state.movies}></VideoList>
       </div>
+      </>
     );
   }
 }
