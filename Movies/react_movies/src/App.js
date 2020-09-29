@@ -1,6 +1,7 @@
 import React , {Component}from 'react';
 import './App.css';
 import VideoList from './components/movie_list'
+import Navbar from './components/navbar'
 //CONST & VARS
 const APIKEY = '8ed69995';
 const APIURL = `http://www.omdbapi.com`;
@@ -23,15 +24,16 @@ class App extends Component {
   componentDidMount(){
     fetchMovies().then(res => {
         this.setState({
-          movies : res.Search
+          movies : res.Search,
+          totalCount : res.totalResults
         })
     })
   }
   render() {
     return (
       <>
-      <div class="navbar"></div>
-      <div className="movie_container">
+      <Navbar/>
+      <div className="container">
         <VideoList movies={this.state.movies}></VideoList>
       </div>
       </>
